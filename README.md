@@ -11,6 +11,7 @@ A Python library for real-time audio streaming communication based on WebRTC, su
 - Low-latency audio transmission
 - Audio buffer management
 - Support for pausing/resuming streaming
+- Selection of input and output audio devices
 
 ## Installation Requirements
 
@@ -102,6 +103,22 @@ if __name__ == "__main__":
 python examples/basic_streaming.py
 ```
 
+### Selecting Input and Output Devices
+
+To select specific input and output audio devices, you can set the `input_device_index` and `output_device_index` parameters when creating the `AudioHandler` and `AudioOutput` instances respectively.
+
+Example:
+```python
+from openai_realtime_webrtc.audio_handler import AudioHandler
+from openai_realtime_webrtc.audio_output import AudioOutput
+
+# Create AudioHandler with a specific input device
+audio_handler = AudioHandler(input_device_index=1)
+
+# Create AudioOutput with a specific output device
+audio_output = AudioOutput(device=2)
+```
+
 ## Contribution Guidelines
 
 Pull Requests and Issues are welcome!
@@ -112,9 +129,10 @@ MIT License
 
 ## Changelog
 
-### v0.1.0
+### v0.1.1
 - Initial release
 - Basic WebRTC audio streaming functionality
 - Support for OpenAI Realtime API
 - Automatic audio device management
 - Audio resampling support
+- Selection of input and output audio devices
