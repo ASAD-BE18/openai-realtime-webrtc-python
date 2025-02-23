@@ -76,7 +76,7 @@ class WebRTCManager:
             await self.peer_connection.close()
             self.peer_connection = None
 
-    async def get_ephemeral_token(self, api_key: str, model: str) -> str:
+    async def get_ephemeral_token(self, api_key: str, model: str, instructions: str) -> str:
         """Get an ephemeral token from OpenAI."""
         headers = {
             "Authorization": f"Bearer {api_key}",
@@ -85,8 +85,11 @@ class WebRTCManager:
 
         data = {
             "model": model,
-            "voice": "alloy"  # 默认使用 alloy 声音
+            "modalities": ["audio", "text"],
+            "instructions": f"{instructions}"
         }
+
+       
 
         try:
             async with aiohttp.ClientSession() as session:
@@ -111,12 +114,13 @@ class WebRTCManager:
         self,
         api_key: str,
         model: str,
-        offer: Dict[str, Any]
+        offer: Dict[str, Any],
+        instructions: str = "You are a friendly assistant.",
     ) -> Dict[str, Any]:
         """Connect to OpenAI's WebRTC endpoint using ephemeral token."""
         try:
             # 1. 获取临时token
-            ephemeral_token = await self.get_ephemeral_token(api_key, model)
+            ephemeral_token = await self.get_ephemeral_token(api_key, model,instructions)
 
             # 2. 使用临时token建立WebRTC连接
             headers = {
