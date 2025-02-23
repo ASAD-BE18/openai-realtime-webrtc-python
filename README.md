@@ -37,7 +37,7 @@ scipy>=1.12.0
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/openai-realtime-webrtc-python.git
+git clone https://github.com/asad-be18/openai-realtime-webrtc-python.git
 cd openai-realtime-webrtc-python
 ```
 
