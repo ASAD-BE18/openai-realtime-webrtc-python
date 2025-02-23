@@ -9,7 +9,7 @@ from .webrtc_manager import WebRTCManager
 from typing import Optional, Deque, Dict, Tuple
 
 logger = logging.getLogger(__name__)
-
+SYSTEM_MESSAGE = "You are a friendly assistant.",
 
 def get_default_audio_info() -> Tuple[Dict, Dict]:
     try:
@@ -40,13 +40,15 @@ class OpenAIWebRTCClient:
         model: str = "whisper-1",
         sample_rate: int = SAMPLE_RATE,
         channels: int = CHANNELS,
-        frame_duration: int = FRAME_DURATION_MS
+        frame_duration: int = FRAME_DURATION_MS,
+        system_message: str = SYSTEM_MESSAGE,
     ):
         self.api_key = api_key
         self.model = model
         self.sample_rate = sample_rate
         self.channels = channels
         self.frame_duration = frame_duration
+        self.system_message = system_message
 
         self.audio_handler = AudioHandler(
             sample_rate=sample_rate,
@@ -81,7 +83,8 @@ class OpenAIWebRTCClient:
             response = await self.webrtc_manager.connect_to_openai(
                 self.api_key,
                 self.model,
-                offer
+                offer,
+                self.system_message # pass system message prompt
             )
 
             # Set remote description
