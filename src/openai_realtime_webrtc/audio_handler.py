@@ -66,7 +66,11 @@ class AudioHandler:
                 if not self.is_paused:
                     audio_data = indata.copy()
                     if audio_data.dtype != self.dtype:
-                        audio_data = audio_data.astype(self.dtype)
+                        if self.dtype == np.int16:
+                            audio_data = (audio_data * 32767).astype(self.dtype)
+                        else:
+                            audio_data = audio_data.astype(self.dtype)
+
                     frame = AudioFrame(samples=len(audio_data), layout='mono', format='s16')
                     frame.rate = self.sample_rate
                     frame.pts = self._pts
