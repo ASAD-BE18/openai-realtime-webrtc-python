@@ -12,7 +12,6 @@ logger = logging.getLogger(__name__)
 
 
 def get_default_audio_info() -> Tuple[Dict, Dict]:
-    """获取默认音频设备的信息"""
     try:
         input_device = sd.query_devices(kind='input')
         output_device = sd.query_devices(kind='output')
@@ -31,6 +30,7 @@ def get_default_audio_info() -> Tuple[Dict, Dict]:
     except Exception as e:
         logger.error(f"Error getting audio device info: {str(e)}")
         raise
+
 
 
 class OpenAIWebRTCClient:
@@ -126,9 +126,11 @@ class OpenAIWebRTCClient:
             return
         await self.audio_handler.resume()
 
-    def set_audio_device(self, device_id: str):
-        """Set the audio input device."""
-        self.audio_handler.set_device(device_id)
+    def set_audio_input_device(self, input_device_index: int):
+        self.audio_handler.set_input_device(input_device_index)
+
+    def set_audio_output_device(self, output_device_index: int):
+        self.audio_handler.set_output_device(output_device_index)
 
     def _handle_transcription(self, text: str):
         """Handle incoming transcription."""
